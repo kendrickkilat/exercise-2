@@ -53,6 +53,10 @@ export interface Picture {
     thumbnail:string,
 }
 
+export interface HttpResponse<IUser> extends Response {
+    parsedBody?: IUser,
+}
+
 export interface IUser {
     gender: string,
     name: Name,

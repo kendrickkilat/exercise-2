@@ -1,9 +1,9 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <h1>User List</h1>
+    <!-- <router-link to="/">Users</router-link> -->
   </div>
-  <router-view/>
+  <router-view />
 </template>
 
 <style>
@@ -26,5 +26,12 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.btn {
+  @apply py-2 px-4 font-semibold rounded-lg shadow-md m-1.5 mt-6;
+}
+.btn-green {
+  @apply text-white bg-green-500 hover:bg-green-700 text-white;
 }
 </style>

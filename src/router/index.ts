@@ -4,22 +4,11 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: RouteNames.Home,
-    component: () => import('../views/Home.vue'),
+    name: RouteNames.Users,
+    component: () => import('../views/Users.vue'),
     props: (route) => ({
-      page: route.query.page || 1,
+      page: parseInt(route.query.page as string, 10) || 1,
     }),
-  },
-  {
-    path: '/user-details/:id',
-    props: true,
-    name: RouteNames.UserDetails,
-    component: () => import('../views/UserDetails.vue'),
-  },
-  {
-    path: '/about',
-    name: RouteNames.About,
-    component: () => import('../views/About.vue'),
   },
 ];
 

@@ -1,22 +1,28 @@
 <template>
-  <div v-for="user of users" v-bind:key="user.login.uuid">
-    <a @click="goToUserDetails(user)">
-      <span>
+  <div v-for="user of users.results" v-bind:key="user.login.uuid" class="container mx-auto">
+    <div
+    class="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 mt-2">
+      <div class="flex-shrink-0">
         <img :src="user.picture.thumbnail" />
-      </span>
-      <span>{{ user.name.first }} {{ user.name.last }}</span>
-    </a>
+      </div>
+      <div>
+        <div class="text-xl font-medium text-black">
+          <span>{{ user.name.first }} {{ user.name.last }}</span>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class = 'pagination'>
+  <div class="pagination">
     <router-link
+    class="btn btn-green"
     :to="toPrevPage"
     rel="prev"
     v-if="page != 1">Prev Page</router-link>
 
     <router-link
+    class = "btn btn-green"
     :to="toNextPage"
-    rel="next"
-    >Next Page</router-link>
+    rel="next">Next Page</router-link>
   </div>
 </template>
 
@@ -45,31 +51,25 @@ export default defineComponent({
     const { getAll, getFiltered } = useUsers();
     const users = ref();
 
-    const toPrevPage = computed(() => ({ name: 'Home', query: { page: prop.page - 1 } }));
-    const toNextPage = computed(() => ({ name: 'Home', query: { page: prop.page + 1 } }));
+    const toPrevPage = computed(() => ({ name: 'Users', query: { page: prop.page - 1 } }));
+    const toNextPage = computed(() => ({ name: 'Users', query: { page: prop.page + 1 } }));
     function goToUserDetails(user: IUser) {
       return router.push({ name: rn.UserDetails, params: { id: user.login.uuid } });
     }
     watchEffect(() => {
-      console.log(prop.page);
       users.value = [];
-      console.log(`Value: ${prop.gender}`);
       if (prop.gender === 'All') {
         getAll(prop.page)
           .then((response) => {
-            const json = response;
-            users.value = json.results;
+            users.value = response.parsedBody;
           })
           .catch((error) => {
             console.log(error);
           });
       } else {
-        console.log(`else entered: ${prop.gender}`);
         getFiltered(prop.gender, prop.page)
           .then((response) => {
-            const json = response;
-            users.value = json.results;
-            console.log(users.value);
+            users.value = response.parsedBody;
           })
           .catch((error) => {
             console.log(error);
@@ -77,14 +77,14 @@ export default defineComponent({
       }
     });
 
-    getAll(prop.page)
-      .then((response) => {
-        const json = response;
-        users.value = json.results;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // getAll(prop.page)
+    //   .then((response) => {
+    //     const json = response;
+    //     users.value = json.parsedBody;
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
 
     return {
       users,
@@ -109,7 +109,8 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
-a {
-  color: #42b983;
+.pagination {
+  margin-top:1.5em;
 }
+
 </style>
