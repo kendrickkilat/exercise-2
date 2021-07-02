@@ -61,6 +61,7 @@ export default defineComponent({
       if (prop.gender === 'All') {
         getAll(prop.page)
           .then((response) => {
+            console.log(response.parsedBody);
             users.value = response.parsedBody;
           })
           .catch((error) => {
@@ -76,15 +77,6 @@ export default defineComponent({
           });
       }
     });
-
-    // getAll(prop.page)
-    //   .then((response) => {
-    //     const json = response;
-    //     users.value = json.parsedBody;
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
 
     return {
       users,

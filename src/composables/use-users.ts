@@ -12,13 +12,13 @@ export default function useUsers() {
 
   async function getAll<IUser>(page:number): Promise<HttpResponse<IUser>> {
     console.log('page', page);
-    const response: HttpResponse<IUser> = await fetch(`${url}?results=${limit}&page=${page}`, options);
+    const response: HttpResponse<IUser> = await fetch(`${url}?results=${limit}&page=${page}&noinfo`, options);
     response.parsedBody = await response.json();
     return response;
   }
 
   async function getFiltered<IUser>(gender:string, page:number):Promise<HttpResponse<IUser>> {
-    const response: HttpResponse<IUser> = await fetch(`${url}?results=${limit}&page=${page}&gender=${gender}`, options);
+    const response: HttpResponse<IUser> = await fetch(`${url}?results=${limit}&page=${page}&gender=${gender}&noinfo`, options);
     response.parsedBody = await response.json();
     return response;
   }
