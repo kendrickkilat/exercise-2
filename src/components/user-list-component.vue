@@ -31,9 +31,6 @@ import useUsers from '@/composables/use-users';
 import {
   computed, defineComponent, ref, watchEffect,
 } from 'vue';
-import rn from '@/enums/route-names';
-import router from '@/router';
-import { IUser } from '@/Interfaces/user';
 
 export default defineComponent({
   name: 'UserList',
@@ -53,15 +50,12 @@ export default defineComponent({
 
     const toPrevPage = computed(() => ({ name: 'Users', query: { page: prop.page - 1 } }));
     const toNextPage = computed(() => ({ name: 'Users', query: { page: prop.page + 1 } }));
-    function goToUserDetails(user: IUser) {
-      return router.push({ name: rn.UserDetails, params: { id: user.login.uuid } });
-    }
+
     watchEffect(() => {
       users.value = [];
       if (prop.gender === 'All') {
         getAll(prop.page)
           .then((response) => {
-            console.log(response.parsedBody);
             users.value = response.parsedBody;
           })
           .catch((error) => {
@@ -80,7 +74,6 @@ export default defineComponent({
 
     return {
       users,
-      goToUserDetails,
       toPrevPage,
       toNextPage,
     };
