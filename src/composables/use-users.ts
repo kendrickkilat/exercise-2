@@ -2,7 +2,7 @@ import { HttpResponse } from '@/Interfaces/user';
 
 export default function useUsers() {
   const url = 'https://randomuser.me/api/';
-  const limit = 5;
+  const limit = 3;
   const options = {
     method: 'GET',
     headers: {
@@ -11,7 +11,6 @@ export default function useUsers() {
   };
 
   async function getAll<IUser>(page:number): Promise<HttpResponse<IUser>> {
-    console.log('page', page);
     const response: HttpResponse<IUser> = await fetch(`${url}?results=${limit}&page=${page}&noinfo`, options);
     response.parsedBody = await response.json();
     return response;
@@ -22,8 +21,6 @@ export default function useUsers() {
     response.parsedBody = await response.json();
     return response;
   }
-
-  console.log(typeof ({ getAll }));
   return {
     getAll,
     getFiltered,

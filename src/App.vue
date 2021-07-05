@@ -1,6 +1,6 @@
 <template>
   <div id="nav">
-    <h1>User List</h1>
+    <h1 class="text-white">User List</h1>
     <!-- <router-link to="/">Users</router-link> -->
   </div>
   <router-view />
@@ -26,12 +26,5 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
-}
-
-.btn {
-  @apply py-2 px-4 font-semibold rounded-lg shadow-md m-1.5 mt-6;
-}
-.btn-green {
-  @apply text-white bg-green-500 hover:bg-green-700 text-white;
 }
 </style>
