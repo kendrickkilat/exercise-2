@@ -16,7 +16,7 @@
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue';
 import UserList from '@/components/user-list-component.vue';
-import Dropdown from '@/components/dropdown-component.vue';
+// import Dropdown from '@/components/dropdown-component.vue';
 
 export default defineComponent({
   name: 'Users',

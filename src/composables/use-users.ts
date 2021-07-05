@@ -1,28 +1,36 @@
-import { HttpResponse } from '@/Interfaces/user';
+import userService from '@/services/user-service';
+import { computed, ref, watchEffect } from 'vue';
 
-export default function useUsers() {
-  const url = 'https://randomuser.me/api/';
-  const limit = 3;
-  const options = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
+export default function useUsers(prop:{gender:string, page:number}) {
+  const users = ref();
+  const { getAll, getFiltered } = userService();
+  const toPrevPage = computed(() => ({ name: 'Users', query: { page: prop.page - 1 } }));
+  const toNextPage = computed(() => ({ name: 'Users', query: { page: prop.page + 1 } }));
 
-  async function getAll<IUser>(page:number): Promise<HttpResponse<IUser>> {
-    const response: HttpResponse<IUser> = await fetch(`${url}?results=${limit}&page=${page}&noinfo`, options);
-    response.parsedBody = await response.json();
-    return response;
-  }
+  watchEffect(() => {
+    users.value = [];
+    if (prop.gender === 'All') {
+      getAll(prop.page)
+        .then((response) => {
+          users.value = response.parsedBody;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      getFiltered(prop.gender, prop.page)
+        .then((response) => {
+          users.value = response.parsedBody;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  });
 
-  async function getFiltered<IUser>(gender:string, page:number):Promise<HttpResponse<IUser>> {
-    const response: HttpResponse<IUser> = await fetch(`${url}?results=${limit}&page=${page}&gender=${gender}&noinfo`, options);
-    response.parsedBody = await response.json();
-    return response;
-  }
   return {
-    getAll,
-    getFiltered,
+    users,
+    toPrevPage,
+    toNextPage,
   };
 }

@@ -36,7 +36,7 @@
       </div>
     </div>
   </div>
-  <div class="pagination">
+  <div class="pagination flex justify-evenly">
     <router-link class="btn btn-green" :to="toPrevPage" rel="prev" v-if="page != 1">
       Prev Page
     </router-link>
@@ -50,7 +50,7 @@
 <script lang="ts">
 import useUsers from '@/composables/use-users';
 import {
-  computed, defineComponent, ref, watchEffect,
+  defineComponent,
 } from 'vue';
 
 export default defineComponent({
@@ -66,38 +66,7 @@ export default defineComponent({
     },
   },
   setup(prop) {
-    const { getAll, getFiltered } = useUsers();
-    const users = ref();
-
-    const toPrevPage = computed(() => ({ name: 'Users', query: { page: prop.page - 1 } }));
-    const toNextPage = computed(() => ({ name: 'Users', query: { page: prop.page + 1 } }));
-
-    watchEffect(() => {
-      users.value = [];
-      if (prop.gender === 'All') {
-        getAll(prop.page)
-          .then((response) => {
-            users.value = response.parsedBody;
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      } else {
-        getFiltered(prop.gender, prop.page)
-          .then((response) => {
-            users.value = response.parsedBody;
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-    });
-
-    return {
-      users,
-      toPrevPage,
-      toNextPage,
-    };
+    return useUsers(prop);
   },
 });
 </script>

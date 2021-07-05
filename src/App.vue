@@ -1,6 +1,6 @@
 <template>
   <div id="nav">
-    <h1 class="text-white">User List</h1>
+    <h1 class="text-white">List of Random People</h1>
     <!-- <router-link to="/">Users</router-link> -->
   </div>
   <router-view />
