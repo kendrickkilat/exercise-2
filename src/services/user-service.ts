@@ -19,7 +19,7 @@ export default function userService() {
   async function getFiltered<IUser>(gender:string, page:number):Promise<HttpResponse<IUser>> {
     const response: HttpResponse<IUser> = await fetch(`${url}?results=${limit}&page=${page}&gender=${gender}&noinfo`, options);
     response.parsedBody = await response.json();
-    return response;
+    return response; // one function for get
   }
   return {
     getAll,

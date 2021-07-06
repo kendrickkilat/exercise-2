@@ -1,14 +1,16 @@
 <template>
   <div class="users">
-    <Dropdown :selections="selections" :selected="selected" @selected="setSelected"/>
+    <h2 class="text-white m-1">Select Gender:</h2>
+    <Dropdown :selections="selections" :selected="selected" @emitSelected="setSelected"/>
     <UserList :gender="selected" :page="page" />
 </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue';
-import UserList from '@/components/user-list-component.vue';
+import UserList from '@/components/user-page.vue';
 import Dropdown from '@/components/dropdown-component.vue';
+import router from '@/router';
 
 export default defineComponent({
   name: 'Users',
@@ -28,11 +30,11 @@ export default defineComponent({
       'All',
       'Male',
       'Female',
-    ]);
+    ]);// enums
 
     function setSelected(data:string) {
-      console.log(data);
       selected.value = data;
+      router.push({ name: 'Users', query: { page: 1 } });
     }
     return {
       selected,

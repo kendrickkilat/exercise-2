@@ -1,10 +1,11 @@
 <template>
+  <CircularLoader v-if="!users.results" />
   <div
     v-for="user of users.results"
     v-bind:key="user.login.uuid"
     class="max-w-2xl w-full mx-auto z-10"
   >
-    <div class="flex flex-col">
+    <div class="flex flex-col"><!-- Add Details Page -->
       <div class="bg-gray-900 border border-gray-900 shadow-lg rounded-3xl p-4 m-4">
         <div class="flex-none sm:flex">
           <div class="h-32 w-32 sm:mb-0 mb-3">
@@ -29,7 +30,7 @@
               <span>Age: {{ user.dob.age }}</span>
             </div>
             <div class="flex-auto justify-end text-gray-400 my-3 font-bold">
-              <span class="mr-3">Gender: {{ user.gender === 'male' ? 'Male' : 'Female'  }}</span>
+              <span class="mr-3">Gender: {{ user.gender === 'male' ? 'Male' : 'Female' }}</span>
             </div>
           </div>
         </div>
@@ -37,24 +38,26 @@
     </div>
   </div>
   <div class="pagination flex justify-evenly">
-    <router-link class="btn btn-green" :to="toPrevPage" rel="prev" v-if="page != 1">
-      Prev Page
-    </router-link>
+    <router-link class="btn btn-green"
+    :to="toPrevPage" rel="prev" v-if="page != 1">Prev Page</router-link>
 
-    <router-link class="btn btn-green" :to="toNextPage" rel="next">
-      Next Page
-    </router-link>
+    <router-link class="btn btn-green"
+    :to="toNextPage" rel="next">Next Page</router-link>
   </div>
 </template>
 
 <script lang="ts">
 import useUsers from '@/composables/use-users';
+import CircularLoader from '@/components/circular-loader-component.vue';
 import {
   defineComponent,
 } from 'vue';
 
 export default defineComponent({
   name: 'UserList',
+  components: {
+    CircularLoader,
+  },
   props: {
     gender: {
       type: String,

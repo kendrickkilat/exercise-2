@@ -1,5 +1,5 @@
 <template>
-        <div class="flex items-center justify-center p-12 z-990">
+        <div class="flex items-center justify-center m-2 z-990">
             <div class="relative inline-block text-left dropdown">
                 <span class="rounded-md shadow-sm">
                     <button
@@ -78,14 +78,14 @@ export default defineComponent({
       required: false,
     },
   },
-  emits: ['selected'],
-  setup(prop, { emit }) {
+  emits: ['emitSelected'],
+  setup(_prop, { emit }) {
     const isShown = ref(false);
     function toggleDropdown() {
       isShown.value = !isShown.value;
     }
     function emitSelected(value:string) {
-      emit('selected', value);
+      emit('emitSelected', value);
       toggleDropdown();
     }
     return {

@@ -7,7 +7,7 @@ export default function useUsers(prop:{gender:string, page:number}) {
   const toPrevPage = computed(() => ({ name: 'Users', query: { page: prop.page - 1 } }));
   const toNextPage = computed(() => ({ name: 'Users', query: { page: prop.page + 1 } }));
 
-  watchEffect(() => {
+  watchEffect(() => { // move this and the next page cnstants to user component
     users.value = [];
     if (prop.gender === 'All') {
       getAll(prop.page)
@@ -18,7 +18,6 @@ export default function useUsers(prop:{gender:string, page:number}) {
           console.log(error);
         });
     } else {
-      console.log(prop.gender);
       getFiltered(prop.gender.toLowerCase(), prop.page)
         .then((response) => {
           users.value = response.parsedBody;
