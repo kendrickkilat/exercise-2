@@ -8,6 +8,7 @@
                         aria-haspopup="true"
                         aria-expanded="true"
                         aria-controls="headlessui-menu-items-117"
+                        @click = "toggleDropdown()"
                     >
                         <span>{{selected}}</span>
                         <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor">
@@ -24,7 +25,8 @@
                     </button>
                 </span>
                 <div
-                    class="opacity-0
+                    v-if="isShown"
+                    class="
                     invisible
                     dropdown-menu
                     transition-all
@@ -34,25 +36,25 @@
                 >
                     <div
                         class="absolute right-0 w-56 mt-2 origin-top-right
-                        bg-white border border-gray-200 divide-y divide-gray-100
+                        bg-gray-700 border divide-y divide-gray-800 border-gray-800
                         rounded-md shadow-lg outline-none"
                         aria-labelledby="headlessui-menu-button-1"
                         id="headlessui-menu-items-117"
                         role="menu"
                     >
-                        <div class="px-4 py-3">
-                            <p class="text-sm leading-5">Select Gender</p>
+                        <div class="px-4 py-3 bg-gray-500">
+                            <p class="text-sm text-gray-50 leading-5">Select Gender</p>
                         </div>
                         <div class="py-1"
                         v-for="(selection, index) in selections"
                         v-bind:key="index">
                             <a
-                                @click="setSelected(selection)"
+                                @click="emitSelected(selection)"
                                 tabindex="0"
-                                class="text-gray-700
+                                class="text-white
                                 flex justify-between
                                 w-full px-4 py-2 text-sm leading-5 text-left
-                                hover:bg-gray-100 cursor-pointer"
+                                hover:bg-gray-600 cursor-pointer"
                                 role="menuitem"
                             >{{selection}}</a>
                         </div>
@@ -71,15 +73,25 @@ export default defineComponent({
       type: Object as PropType<string[]>,
       required: true,
     },
+    selected: {
+      type: String,
+      required: false,
+    },
   },
-  setup() {
-    const selected = ref('All');
-    function setSelected(value:string) {
-      selected.value = value;
+  emits: ['selected'],
+  setup(prop, { emit }) {
+    const isShown = ref(false);
+    function toggleDropdown() {
+      isShown.value = !isShown.value;
+    }
+    function emitSelected(value:string) {
+      emit('selected', value);
+      toggleDropdown();
     }
     return {
-      selected,
-      setSelected,
+      emitSelected,
+      isShown,
+      toggleDropdown,
     };
   },
 });

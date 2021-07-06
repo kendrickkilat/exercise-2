@@ -18,7 +18,8 @@ export default function useUsers(prop:{gender:string, page:number}) {
           console.log(error);
         });
     } else {
-      getFiltered(prop.gender, prop.page)
+      console.log(prop.gender);
+      getFiltered(prop.gender.toLowerCase(), prop.page)
         .then((response) => {
           users.value = response.parsedBody;
         })

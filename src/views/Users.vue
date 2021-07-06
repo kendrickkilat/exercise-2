@@ -1,14 +1,6 @@
 <template>
   <div class="users">
-    <!-- <Dropdown :selections="selections"/> -->
-    <div class="gender-select" id="v-model-select">
-      <select v-model="selected">
-        <option disabled="true">Please select one</option>
-        <option>All</option>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-      </select>
-    </div>
+    <Dropdown :selections="selections" :selected="selected" @selected="setSelected"/>
     <UserList :gender="selected" :page="page" />
 </div>
 </template>
@@ -16,7 +8,7 @@
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue';
 import UserList from '@/components/user-list-component.vue';
-// import Dropdown from '@/components/dropdown-component.vue';
+import Dropdown from '@/components/dropdown-component.vue';
 
 export default defineComponent({
   name: 'Users',
@@ -28,7 +20,7 @@ export default defineComponent({
   },
   components: {
     UserList,
-    // Dropdown,
+    Dropdown,
   },
   setup() {
     const selected = ref('All');
@@ -37,9 +29,15 @@ export default defineComponent({
       'Male',
       'Female',
     ]);
+
+    function setSelected(data:string) {
+      console.log(data);
+      selected.value = data;
+    }
     return {
       selected,
       selections,
+      setSelected,
     };
   },
 });
