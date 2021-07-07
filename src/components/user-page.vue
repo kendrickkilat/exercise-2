@@ -5,7 +5,8 @@
     v-bind:key="user.login.uuid"
     class="max-w-2xl w-full mx-auto z-10"
   >
-    <div class="flex flex-col"><!-- Add Details Page -->
+    <div class="flex flex-col">
+      <!-- Add Details Page -->
       <div class="bg-gray-900 border border-gray-900 shadow-lg rounded-3xl p-4 m-4">
         <div class="flex-none sm:flex">
           <div class="h-32 w-32 sm:mb-0 mb-3">
@@ -50,7 +51,9 @@
 import useUsers from '@/composables/use-users';
 import CircularLoader from '@/components/circular-loader-component.vue';
 import {
+  computed,
   defineComponent,
+  watchEffect,
 } from 'vue';
 
 export default defineComponent({
@@ -69,12 +72,22 @@ export default defineComponent({
     },
   },
   setup(prop) {
-    return useUsers(prop);
+    const toPrevPage = computed(() => ({ name: 'Users', query: { page: prop.page - 1 } }));
+    const toNextPage = computed(() => ({ name: 'Users', query: { page: prop.page + 1 } }));
+    const { users, setData } = useUsers();
+
+    watchEffect(() => {
+      setData(prop.page, prop.gender.toLowerCase());
+    });
+    return {
+      toPrevPage,
+      toNextPage,
+      users,
+    };
   },
 });
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .pagination {
   margin-top: 1.5em;

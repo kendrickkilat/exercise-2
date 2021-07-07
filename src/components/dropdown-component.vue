@@ -46,8 +46,8 @@
                             <p class="text-sm text-gray-50 leading-5">Select Gender</p>
                         </div>
                         <div class="py-1"
-                        v-for="(selection, index) in selections"
-                        v-bind:key="index">
+                        v-for="selection in Selections"
+                        v-bind:key="selection">
                             <a
                                 @click="emitSelected(selection)"
                                 tabindex="0"
@@ -64,18 +64,15 @@
         </div>
 </template>
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
+import Selections from '@/enums/selections';
 
 export default defineComponent({
   name: 'Dropdown',
   props: {
-    selections: {
-      type: Object as PropType<string[]>,
-      required: true,
-    },
     selected: {
       type: String,
-      required: false,
+      required: true,
     },
   },
   emits: ['emitSelected'],
@@ -84,7 +81,7 @@ export default defineComponent({
     function toggleDropdown() {
       isShown.value = !isShown.value;
     }
-    function emitSelected(value:string) {
+    function emitSelected(value: Selections) {
       emit('emitSelected', value);
       toggleDropdown();
     }
@@ -92,6 +89,7 @@ export default defineComponent({
       emitSelected,
       isShown,
       toggleDropdown,
+      Selections,
     };
   },
 });

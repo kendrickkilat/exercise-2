@@ -5,7 +5,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: RouteNames.Users,
-    component: () => import('../views/Users.vue'),
+    component: () => import('../views/users.vue'),
     props: (route) => ({
       page: parseInt(route.query.page as string, 10) || 1,
     }),
