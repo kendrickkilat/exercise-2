@@ -1,6 +1,5 @@
 <template>
-  <div class="users">
-    <h2 class="text-white m-1">Select Gender:</h2>
+  <div class="users ">
     <Dropdown :selected="selected" @emitSelected="setSelected"/>
     <UserList :gender="selected" :page="page" />
 </div>
@@ -19,6 +18,10 @@ export default defineComponent({
       type: Number,
       required: true,
     },
+    gender: {
+      type: String,
+      required: true,
+    },
   },
   components: {
     UserList,
@@ -29,7 +32,7 @@ export default defineComponent({
 
     function setSelected(data:string) {
       selected.value = data;
-      router.push({ name: 'Users', query: { page: 1 } });
+      router.push({ name: 'Users', query: { page: 1, gender: data.toLowerCase() } });
     }
     return {
       selected,

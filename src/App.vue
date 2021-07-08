@@ -1,7 +1,7 @@
 <template>
   <div id="nav">
-    <h1 class="text-white">List of Random People</h1>
-    <!-- <router-link to="/">Users</router-link> -->
+    <h1>Exercise 2</h1>
+    <h2>List of Random People</h2>
   </div>
   <router-view />
 </template>

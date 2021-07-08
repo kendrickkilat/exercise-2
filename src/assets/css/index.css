@@ -4,10 +4,10 @@
 
 @layer base {
     h1 {
-        @apply text-2xl;
+        @apply text-2xl text-white;
     }
     h2 {
-        @apply text-xl;
+        @apply text-xl text-white;
     }
     .btn {
         @apply py-2 px-4 font-bold rounded-sm shadow-md m-1.5 mt-6;
@@ -21,10 +21,10 @@
     .main-dropdown-button {
         @apply inline-flex justify-center w-full px-4 py-2 text-base
         leading-5 text-white transition duration-150
-        ease-in-out bg-gray-600
+        ease-in-out bg-gray-900
         rounded-md
         min-w-full
         font-semibold
         outline-none
-     }
+    }
 }

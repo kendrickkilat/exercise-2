@@ -14,12 +14,16 @@ export interface TimeZone {
 }
 
 export interface Address {
-    street: string,
+    street: Street,
     city: string,
     state: string,
     postcode: number,
     coordinates:Coordinates,
     timezone: TimeZone,
+}
+export interface Street {
+    number: number,
+    name: string,
 }
 
 export interface LoginCredentials {

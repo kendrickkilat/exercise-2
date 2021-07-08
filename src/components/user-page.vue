@@ -1,22 +1,23 @@
 <template>
   <CircularLoader v-if="!users.results" />
+  <Modal :isShown="showModal" :data="modalData" @emitCloseModal="closeModal()"/>
   <div
     v-for="user of users.results"
     v-bind:key="user.login.uuid"
-    class="max-w-2xl w-full mx-auto z-10"
+    class="w-full mx-auto z-10 cursor-pointer"
+    @click="showDetails(user)"
   >
     <div class="flex flex-col">
-      <!-- Add Details Page -->
-      <div class="bg-gray-900 border border-gray-900 shadow-lg rounded-3xl p-4 m-4">
+      <div class="bg-gray-900 border border-gray-900 hover:bg-gray-700 shadow-lg rounded-3xl p-4 m-4">
         <div class="flex-none sm:flex">
-          <div class="h-32 w-32 sm:mb-0 mb-3">
+          <div class="h-32 w-32 sm:mb-0 mb-3  hidden sm:block">
             <img
               :src="user.picture.large"
               :alt="user.name.first"
               class="w-32 h-32 object-cover rounded-2xl"
             />
           </div>
-          <div class="flex flex-col sm:ml-5 sm:mt-2 justify-start text-left flex-auto">
+          <div class="flex flex-col sm:ml-5 sm:mt-2 justify-start text-center sm:text-left flex-auto">
             <div
               class="w-full text-lg text-gray-200 font-bold leading-none"
             >{{ user.name.first }} {{ user.name.last }}</div>
@@ -30,7 +31,7 @@
               <span class="mr-3 border-r border-gray-600 max-h-0"></span>
               <span>Age: {{ user.dob.age }}</span>
             </div>
-            <div class="flex-auto justify-end text-gray-400 my-3 font-bold">
+            <div class="flex-auto justify-end text-green-500 my-3 font-bold">
               <span class="mr-3">Gender: {{ user.gender === 'male' ? 'Male' : 'Female' }}</span>
             </div>
           </div>
@@ -38,11 +39,15 @@
       </div>
     </div>
   </div>
-  <div class="pagination flex justify-evenly">
-    <router-link class="btn btn-green"
+  <div class="pagination flex justify-center md:justify-between mx-40">
+    <router-link class="btn btn-green w-full"
     :to="toPrevPage" rel="prev" v-if="page != 1">Prev Page</router-link>
 
-    <router-link class="btn btn-green"
+    <!-- <button class = "btn btn-green hidden md:block" v-for="(index, value) in Array(10)" v-bind:key="index">
+      {{value + 1}}
+    </button> -->
+
+    <router-link class="btn btn-green w-full"
     :to="toNextPage" rel="next">Next Page</router-link>
   </div>
 </template>
@@ -50,16 +55,21 @@
 <script lang="ts">
 import useUsers from '@/composables/use-users';
 import CircularLoader from '@/components/circular-loader-component.vue';
+import Modal from '@/components/modal-component.vue';
+
 import {
   computed,
   defineComponent,
+  ref,
   watchEffect,
 } from 'vue';
+import { IUser } from '@/Interfaces/user';
 
 export default defineComponent({
   name: 'UserList',
   components: {
     CircularLoader,
+    Modal,
   },
   props: {
     gender: {
@@ -72,17 +82,33 @@ export default defineComponent({
     },
   },
   setup(prop) {
-    const toPrevPage = computed(() => ({ name: 'Users', query: { page: prop.page - 1 } }));
-    const toNextPage = computed(() => ({ name: 'Users', query: { page: prop.page + 1 } }));
+    const toPrevPage = computed(() => ({ name: 'Users', query: { page: prop.page - 1, gender: prop.gender.toLowerCase() } }));
+    const toNextPage = computed(() => ({ name: 'Users', query: { page: prop.page + 1, gender: prop.gender.toLowerCase() } }));
     const { users, setData } = useUsers();
+    const showModal = ref(false);
+
+    const modalData = ref();
 
     watchEffect(() => {
+      console.log('props in userList:', prop.gender, ' - ', prop.page);
       setData(prop.page, prop.gender.toLowerCase());
     });
+
+    function showDetails(data:IUser) {
+      modalData.value = data;
+      showModal.value = true;
+    }
+    function closeModal() {
+      showModal.value = false;
+    }
     return {
       toPrevPage,
       toNextPage,
       users,
+      showDetails,
+      modalData,
+      showModal,
+      closeModal,
     };
   },
 });

@@ -1,6 +1,7 @@
 <template>
-        <div class="flex items-center justify-center m-2 z-990">
-            <div class="relative inline-block text-left dropdown">
+        <div class="flex items-center justify-end m-2 z-990">
+            <h2>Select Gender: </h2>
+            <div class="relative inline-block text-left dropdown mx-2 ">
                 <span class="rounded-md shadow-sm">
                     <button
                         class="main-dropdown-button"
@@ -37,7 +38,7 @@
                     <div
                         class="absolute right-0 w-56 mt-2 origin-top-right
                         bg-gray-700 border divide-y divide-gray-800 border-gray-800
-                        rounded-md shadow-lg outline-none"
+                        rounded-md shadow-lg outline-none flex flex-col"
                         aria-labelledby="headlessui-menu-button-1"
                         id="headlessui-menu-items-117"
                         role="menu"
@@ -52,8 +53,8 @@
                                 @click="emitSelected(selection)"
                                 tabindex="0"
                                 class="text-white
-                                flex justify-between
-                                w-full px-4 py-2 text-sm leading-5 text-left
+                                w-full flex
+                                px-4 py-2 text-sm leading-5 text-left
                                 hover:bg-gray-600 cursor-pointer"
                                 role="menuitem"
                             >{{selection}}</a>
