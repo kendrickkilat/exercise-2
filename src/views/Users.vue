@@ -18,10 +18,6 @@ export default defineComponent({
       type: Number,
       required: true,
     },
-    gender: {
-      type: String,
-      required: true,
-    },
   },
   components: {
     UserList,
@@ -32,7 +28,7 @@ export default defineComponent({
 
     function setSelected(data:string) {
       selected.value = data;
-      router.push({ name: 'Users', query: { page: 1, gender: data.toLowerCase() } });
+      router.push({ name: 'Users', query: { page: 1 } });
     }
     return {
       selected,

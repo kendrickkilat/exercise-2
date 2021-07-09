@@ -1,15 +1,32 @@
-import userService from '@/services/user-service';
+import fetchAPIService from '@/services/fetch-api-service';
 import { ref } from 'vue';
 
 export default function useUsers() {
   const users = ref();
-  const { getAll } = userService();
+  const { sendRequest } = fetchAPIService();
+  const url = 'https://randomuser.me/api/?';
 
-  function setData(page: number, gender: string) {
+  const limit = 3;
+
+  const params = new URLSearchParams();
+  params.set('results', limit.toString());
+
+  const options = {
+    methods: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  function getData(page: number, gender: string) {
     users.value = [];
-    getAll(page, gender)
+    params.set('page', page.toString());
+    params.set('gender', gender);
+    const request = new Request(`${url}${params}`, options);
+
+    sendRequest(request)
       .then((response) => {
-        users.value = response.parsedBody;
+        users.value = response;
       })
       .catch((error) => {
         console.log(error);
@@ -18,6 +35,6 @@ export default function useUsers() {
 
   return {
     users,
-    setData,
+    getData,
   };
 }

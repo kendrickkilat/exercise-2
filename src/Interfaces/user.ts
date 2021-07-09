@@ -12,7 +12,10 @@ export interface TimeZone {
     offset: string,
     description: string,
 }
-
+export interface Street {
+    number: number,
+    name: string,
+}
 export interface Address {
     street: Street,
     city: string,
@@ -21,11 +24,6 @@ export interface Address {
     coordinates:Coordinates,
     timezone: TimeZone,
 }
-export interface Street {
-    number: number,
-    name: string,
-}
-
 export interface LoginCredentials {
     uuid: string,
     username: string,
@@ -57,9 +55,9 @@ export interface Picture {
     thumbnail:string,
 }
 
-export interface HttpResponse<IUser> extends Response {
-    parsedBody?: IUser,
-}
+// export interface HttpResponse<IUser> extends Response {
+//     parsedBody?: IUser,
+// }
 
 export interface IUser {
     gender: string,

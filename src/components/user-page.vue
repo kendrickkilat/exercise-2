@@ -42,11 +42,6 @@
   <div class="pagination flex justify-center md:justify-between mx-40">
     <router-link class="btn btn-green w-full"
     :to="toPrevPage" rel="prev" v-if="page != 1">Prev Page</router-link>
-
-    <!-- <button class = "btn btn-green hidden md:block" v-for="(index, value) in Array(10)" v-bind:key="index">
-      {{value + 1}}
-    </button> -->
-
     <router-link class="btn btn-green w-full"
     :to="toNextPage" rel="next">Next Page</router-link>
   </div>
@@ -82,16 +77,15 @@ export default defineComponent({
     },
   },
   setup(prop) {
-    const toPrevPage = computed(() => ({ name: 'Users', query: { page: prop.page - 1, gender: prop.gender.toLowerCase() } }));
-    const toNextPage = computed(() => ({ name: 'Users', query: { page: prop.page + 1, gender: prop.gender.toLowerCase() } }));
-    const { users, setData } = useUsers();
-    const showModal = ref(false);
+    const toPrevPage = computed(() => ({ name: 'Users', query: { page: prop.page - 1 } }));
+    const toNextPage = computed(() => ({ name: 'Users', query: { page: prop.page + 1 } }));
 
+    const { users, getData } = useUsers();
+    const showModal = ref(false);
     const modalData = ref();
 
     watchEffect(() => {
-      console.log('props in userList:', prop.gender, ' - ', prop.page);
-      setData(prop.page, prop.gender.toLowerCase());
+      getData(prop.page, prop.gender.toLowerCase());
     });
 
     function showDetails(data:IUser) {

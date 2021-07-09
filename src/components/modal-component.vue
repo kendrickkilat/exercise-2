@@ -18,7 +18,7 @@
 						<div
 							class="inline-block w-full max-w-md py-6 pt-0 my-8 overflow-hidden text-left align-middle transition-all transform bg-gray-900 shadow-xl rounded-2xl"
 						>
-							<div class="">
+							<div>
 								<div class="bg-gray-800 shadow overflow-hidden sm:rounded-lg">
 									<div class="px-4 py-5 sm:px-6 text-center flex content-center flex-col items-center">
 										<div>
@@ -43,12 +43,13 @@
 											</div>
 											<div class="bg-gray-800 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
 												<dt class="text-sm font-medium text-gray-500">Address</dt>
-												<dd class="mt-1 text-sm text-white sm:mt-0 sm:col-span-2"> {{data.location.street.number}} {{data.location.street.name}}, {{ data.location.city }} {{data.location.state }} -  {{data.location.postcode}}</dd>
+												<dd class="mt-1 text-sm text-white sm:mt-0 sm:col-span-2">
+													{{data.location.street.number}} {{data.location.street.name}}, {{ data.location.city }} {{data.location.state }} -  {{data.location.postcode}}</dd>
 											</div>
 											<div class="bg-gray-900 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
 												<dt class="text-sm font-medium text-gray-500">Date of Birth</dt>
 												<dd class="mt-1 text-sm text-white sm:mt-0 sm:col-span-2">
-													{{ data.dob.date }}
+													{{ formatDate(data.dob.date) }}
 												</dd>
 											</div>
 											<div class="bg-gray-800 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -106,6 +107,7 @@ import {
   DialogOverlay,
 } from '@headlessui/vue';
 import { IUser } from '@/Interfaces/user';
+import formatDate from '@/composables/use-date-formatter';
 
 export default defineComponent({
   name: 'Modal',
@@ -142,12 +144,15 @@ export default defineComponent({
       emit('emitCloseModal');
     }
 
+    function openModal() {
+      isOpen.value = true;
+    }
+
     return {
       isOpen,
       closeModal,
-      openModal() {
-        isOpen.value = true;
-      },
+      formatDate,
+      openModal,
     };
   },
 });

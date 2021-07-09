@@ -8,7 +8,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/users.vue'),
     props: (route) => ({
       page: parseInt(route.query.page as string, 10) || 1,
-      gender: route.query.gender as string || 'all',
     }),
   },
   {
