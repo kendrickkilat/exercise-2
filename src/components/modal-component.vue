@@ -121,10 +121,12 @@ export default defineComponent({
     isShown: {
       type: Boolean,
       required: false,
+      value: false,
     },
     data: {
       type: Object as PropType<IUser>,
       required: false,
+      value: null,
     },
   },
   emits: ['emitCloseModal'],
@@ -132,11 +134,7 @@ export default defineComponent({
     const isOpen = ref(false);
 
     watchEffect(() => {
-      if (prop.isShown) {
-        isOpen.value = true;
-      } else {
-        isOpen.value = false;
-      }
+      isOpen.value = prop.isShown;
     });
 
     function closeModal() {

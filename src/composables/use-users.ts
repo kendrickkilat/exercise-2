@@ -1,12 +1,11 @@
-import fetchAPIService from '@/services/fetch-api-service';
 import { ref } from 'vue';
+import useApi from './use-api';
 
 export default function useUsers() {
   const users = ref();
-  const { sendRequest } = fetchAPIService();
   const url = 'https://randomuser.me/api/?';
 
-  const limit = 3;
+  const limit = 6;
 
   const params = new URLSearchParams();
   params.set('results', limit.toString());
@@ -18,13 +17,15 @@ export default function useUsers() {
     },
   };
 
+  const { get } = useApi();
+
   function getData(page: number, gender: string) {
     users.value = [];
     params.set('page', page.toString());
     params.set('gender', gender);
     const request = new Request(`${url}${params}`, options);
 
-    sendRequest(request)
+    get(request)
       .then((response) => {
         users.value = response;
       })

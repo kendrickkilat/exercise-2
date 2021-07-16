@@ -4,6 +4,10 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
+    redirect: '/users',
+  },
+  {
+    path: '/users',
     name: RouteNames.Users,
     component: () => import('../views/users.vue'),
     props: (route) => ({

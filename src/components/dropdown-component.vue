@@ -1,5 +1,5 @@
 <template>
-        <div class="flex items-center justify-end m-2 z-990">
+        <div class="flex items-center justify-end m-2 z-900">
             <h2>Select Gender: </h2>
             <div class="relative inline-block text-left dropdown mx-2 ">
                 <span class="rounded-md shadow-sm">

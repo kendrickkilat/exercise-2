@@ -1,30 +1,33 @@
 <template>
   <CircularLoader v-if="!users.results" />
   <Modal :isShown="showModal" :data="modalData" @emitCloseModal="closeModal()"/>
-  <div
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
+    <div
     v-for="user of users.results"
     v-bind:key="user.login.uuid"
-    class="w-full mx-auto z-10 cursor-pointer"
+    class="mx-auto cursor-pointer w-full"
     @click="showDetails(user)"
   >
-    <div class="flex flex-col">
       <div class="bg-gray-900 border border-gray-900 hover:bg-gray-700 shadow-lg rounded-3xl p-4 m-4">
-        <div class="flex-none sm:flex">
-          <div class="h-32 w-32 sm:mb-0 mb-3  hidden sm:block">
+        <div class="md:flex-none flex">
+          <div class="h-32 w-32 sm:mb-0 mb-3 hidden sm:block">
             <img
               :src="user.picture.large"
               :alt="user.name.first"
               class="w-32 h-32 object-cover rounded-2xl"
             />
           </div>
-          <div class="flex flex-col sm:ml-5 sm:mt-2 justify-start text-center sm:text-left flex-auto">
+          <div class="flex flex-col  sm:ml-5 sm:mt-2 justify-start text-center sm:text-left flex-auto">
             <div
-              class="w-full text-lg text-gray-200 font-bold leading-none"
+              class="text-lg text-gray-200 font-bold leading-none"
             >{{ user.name.first }} {{ user.name.last }}</div>
             <div class="text-gray-400 my-1">
               <span class="mr-3">{{ user.email }}</span>
-              <span class="mr-3 border-r border-gray-600 max-h-0"></span>
-              <span>{{ user.location.city }}, {{ user.nat }}</span>
+              <span class="mr-3 border-0 sm:border-r border-gray-600 max-h-0"></span>
+              <span class="hidden sm:inline-block">{{ user.location.city }}, {{ user.nat }}</span>
+            </div>
+            <div class="text-gray-400 my-0">
+              <span class="inline-block sm:hidden">{{ user.location.city }}, {{ user.nat }}</span>
             </div>
             <div class="text-gray-400 my-0">
               <span class="mr-3">{{ user.login.username }}</span>
@@ -37,12 +40,12 @@
           </div>
         </div>
       </div>
-    </div>
   </div>
-  <div class="pagination flex justify-center md:justify-between mx-40">
-    <router-link class="btn btn-green w-full"
+  </div>
+  <div v-if="users.results" class="my-2 flex justify-center md:justify-between text-center">
+    <router-link class="btn btn-green flex-1"
     :to="toPrevPage" rel="prev" v-if="page != 1">Prev Page</router-link>
-    <router-link class="btn btn-green w-full"
+    <router-link class="btn btn-green flex-1"
     :to="toNextPage" rel="next">Next Page</router-link>
   </div>
 </template>
@@ -109,7 +112,4 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.pagination {
-  margin-top: 1.5em;
-}
 </style>
